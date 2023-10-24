@@ -1,2 +1,2 @@
-# NestJS-Fundamentos
+# nest-js-fundamentos
 Treinamento em NestJs.
