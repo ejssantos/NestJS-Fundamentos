@@ -12,6 +12,11 @@ Validadores de DTO (Data Transfer Object)
 
     Exemplo:
 
-      pm i class-validator class-transformer
+      npm i class-validator class-transformer
 
+Partial Type
+
+  Instalação:
+  
+    npm i @nestjs/mapped-types
 */

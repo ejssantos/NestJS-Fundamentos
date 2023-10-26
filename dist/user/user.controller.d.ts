@@ -1,25 +1,28 @@
+import { CreateUserDTO } from './dto/create-user.dto';
+import { UpdatePutUserDTO } from './dto/update-put-user.dto';
+import { UpdatePatchUserDTO } from './dto/update-patch-user.dto';
 export declare class UserController {
-    create(user: any): Promise<{
-        user: any;
+    create(user: CreateUserDTO): Promise<{
+        user: CreateUserDTO;
     }>;
     list(): Promise<{
         users: any[];
     }>;
-    search(params: any): Promise<{
+    search(id: number): Promise<{
         users: {};
-        params: any;
+        id: number;
     }>;
-    update(user: any, params: any): Promise<{
+    update(user: UpdatePutUserDTO, id: number): Promise<{
         method: string;
-        user: any;
+        user: UpdatePutUserDTO;
         params: any;
     }>;
-    updatePartial(user: any, params: any): Promise<{
+    updatePartial(user: UpdatePatchUserDTO, id: number): Promise<{
         method: string;
-        user: any;
+        user: UpdatePatchUserDTO;
         params: any;
     }>;
-    delete(params: any): Promise<{
-        params: any;
+    delete(id: number): Promise<{
+        id: number;
     }>;
 }
