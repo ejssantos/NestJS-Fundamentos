@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param, Get, Put, Patch } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get, Put, Patch, Delete } from '@nestjs/common';
 
 @Controller('users')
 export class UserController {
@@ -33,5 +33,10 @@ export class UserController {
       user,
       params,
     };
+  }
+
+  @Delete(':id')
+  async delete(@Param() params) {
+    return { params }
   }
 }

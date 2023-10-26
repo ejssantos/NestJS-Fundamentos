@@ -19,4 +19,7 @@ export declare class UserController {
         user: any;
         params: any;
     }>;
+    delete(params: any): Promise<{
+        params: any;
+    }>;
 }
