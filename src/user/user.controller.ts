@@ -50,7 +50,7 @@ export class UserController {
     return {
       method: 'PUT',
       user,
-      params,
+      id,
     };
   }
 
@@ -59,7 +59,7 @@ export class UserController {
     return {
       method: 'PATCH',
       user,
-      params,
+      id,
     };
   }
 

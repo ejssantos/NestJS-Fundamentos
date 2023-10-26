@@ -31,14 +31,14 @@ let UserController = class UserController {
         return {
             method: 'PUT',
             user,
-            params,
+            id,
         };
     }
     async updatePartial(user, id) {
         return {
             method: 'PATCH',
             user,
-            params,
+            id,
         };
     }
     async delete(id) {

@@ -15,12 +15,12 @@ export declare class UserController {
     update(user: UpdatePutUserDTO, id: number): Promise<{
         method: string;
         user: UpdatePutUserDTO;
-        params: any;
+        id: number;
     }>;
     updatePartial(user: UpdatePatchUserDTO, id: number): Promise<{
         method: string;
         user: UpdatePatchUserDTO;
-        params: any;
+        id: number;
     }>;
     delete(id: number): Promise<{
         id: number;
