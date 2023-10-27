@@ -17,9 +17,13 @@ const common_1 = require("@nestjs/common");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_put_user_dto_1 = require("./dto/update-put-user.dto");
 const update_patch_user_dto_1 = require("./dto/update-patch-user.dto");
+const user_service_1 = require("./user.service");
 let UserController = class UserController {
+    constructor(userService) {
+        this.userService = userService;
+    }
     async create(user) {
-        return { user };
+        return this.userService.create(user);
     }
     async list() {
         return { users: [] };
@@ -90,6 +94,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "delete", null);
 exports.UserController = UserController = __decorate([
-    (0, common_1.Controller)('users')
+    (0, common_1.Controller)('users'),
+    __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map

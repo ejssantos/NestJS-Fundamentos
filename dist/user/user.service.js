@@ -9,28 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateUserDTO = void 0;
-const class_validator_1 = require("class-validator");
-class CreateUserDTO {
-}
-exports.CreateUserDTO = CreateUserDTO;
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(3),
-    __metadata("design:type", String)
-], CreateUserDTO.prototype, "name", void 0);
-__decorate([
-    (0, class_validator_1.IsEmail)(),
-    __metadata("design:type", String)
-], CreateUserDTO.prototype, "email", void 0);
-__decorate([
-    (0, class_validator_1.IsStrongPassword)({
-        minLength: 6,
-        minLowercase: 0,
-        minUppercase: 0,
-        minNumbers: 0,
-        minSymbols: 0,
-    }),
-    __metadata("design:type", String)
-], CreateUserDTO.prototype, "password", void 0);
-//# sourceMappingURL=create-user.dto.js.map
+exports.UserService = void 0;
+const common_1 = require("@nestjs/common");
+const prisma_service_1 = require("../prisma/prisma.service");
+let UserService = class UserService {
+    constructor(prisma) {
+        this.prisma = prisma;
+    }
+    async create(data) {
+        return this.prisma.user.create({ data });
+    }
+};
+exports.UserService = UserService;
+exports.UserService = UserService = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+], UserService);
+//# sourceMappingURL=user.service.js.map
