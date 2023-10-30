@@ -10,25 +10,45 @@ export declare class UserController {
         name: string;
         email: string;
         password: string;
+        birthAt: Date;
         createdAt: Date;
         updatedAt: Date;
     }>;
     list(): Promise<{
-        users: any[];
-    }>;
+        id: number;
+        name: string;
+        email: string;
+        password: string;
+        birthAt: Date;
+        createdAt: Date;
+        updatedAt: Date;
+    }[]>;
     search(id: number): Promise<{
-        users: {};
         id: number;
+        name: string;
+        email: string;
+        password: string;
+        birthAt: Date;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
-    update(user: UpdatePutUserDTO, id: number): Promise<{
-        method: string;
-        user: UpdatePutUserDTO;
+    updateAll(user: UpdatePutUserDTO, id: number): Promise<{
         id: number;
+        name: string;
+        email: string;
+        password: string;
+        birthAt: Date;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     updatePartial(user: UpdatePatchUserDTO, id: number): Promise<{
-        method: string;
-        user: UpdatePatchUserDTO;
         id: number;
+        name: string;
+        email: string;
+        password: string;
+        birthAt: Date;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     delete(id: number): Promise<{
         id: number;

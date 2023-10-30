@@ -59,5 +59,19 @@ ORM e NestJS
     A instrução abaixo é responsável por observar o arquivo schema.prisma e gerar as apis:
 
       npx prisma generate
+
+    A instrução abaixo atualiza a coluna de banco de dados a partir do schema.prisma.
+
+      npx prisma migrate dev --name Add<nome do campo>
+
+      Exemplo:
+        npx prisma migrate dev --name AddBirthAt
     
+      Realizando um alter table:
+
+        npx prisma migrate dev --name birthAtIsNull
+
+    A instrução abaixo atualiza o schema no banco de dados a partir do schema.prisma. (Bastante Útil)
+
+      npx prisma migrate dev
 */

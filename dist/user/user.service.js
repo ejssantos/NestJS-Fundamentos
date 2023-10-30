@@ -19,6 +19,31 @@ let UserService = class UserService {
     async create(data) {
         return this.prisma.user.create({ data });
     }
+    async list() {
+        return this.prisma.user.findMany();
+    }
+    async search(id) {
+        return this.prisma.user.findUnique({
+            where: { id }
+        });
+    }
+    async updateAll(id, { name, email, password, birthAt }) {
+        console.log({ name, email, password, birthAt });
+        if (!birthAt) {
+            birthAt = null;
+        }
+        return this.prisma.user.update({
+            data: { name, email, password, birthAt: birthAt ? new Date(birthAt) : null },
+            where: { id }
+        });
+    }
+    async updatePartial(id, data) {
+        console.log(data);
+        return this.prisma.user.update({
+            data,
+            where: { id }
+        });
+    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([

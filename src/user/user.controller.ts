@@ -15,9 +15,14 @@ export class UserController {
     return this.userService.create(user);
   }
 
+  // @Get()
+  // async list() {
+  //   return { users: [] };
+  // }
+
   @Get()
   async list() {
-    return { users: [] };
+    return this.userService.list();
   }
 
   /*
@@ -25,15 +30,21 @@ export class UserController {
   async search(@Param() params) {
     return { users: {}, params };
   }
-  */
+  
   @Get(':id')
   async search(@Param('id', ParseIntPipe) id: number) {
     return { users: {}, id };
   }
+  */
+
+  @Get(':id')
+  async search(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.search(id);
+  }
 
   /*
   @Put(':id')
-  async update(@Body() user: UpdatePutUserDTO, @Param() params) {
+  async updateAll(@Body() user: UpdatePutUserDTO, @Param() params) {
     return {
       method: 'PUT',
       user,
@@ -43,15 +54,16 @@ export class UserController {
   
   //Ou...
 
-  async update(@Body() {name, email, password}: UpdatePutUserDTO, @Param() params) {
+  async updateAll(@Body() {name, email, password}: UpdatePutUserDTO, @Param() params) {
     return {
       method: 'PUT',
       name, email, password,
       params,
     };
-  }*/
+  }
+
   @Put(':id')
-  async update(@Body() user: UpdatePutUserDTO, @Param('id', ParseIntPipe) id: number) {
+  async updateAll(@Body() user: UpdatePutUserDTO, @Param('id', ParseIntPipe) id: number) {
     return {
       method: 'PUT',
       user,
@@ -67,6 +79,17 @@ export class UserController {
       id,
     };
   }
+*/
+
+@Put(':id')
+async updateAll(@Body() user: UpdatePutUserDTO, @Param('id', ParseIntPipe) id: number) {
+  return this.userService.updateAll(id, user);
+}
+
+@Patch(':id')
+async updatePartial(@Body() user: UpdatePatchUserDTO, @Param('id', ParseIntPipe) id: number) {
+  return this.userService.updatePartial(id, user);
+}
 
   /*
   @Delete(':id')

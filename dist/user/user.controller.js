@@ -26,24 +26,16 @@ let UserController = class UserController {
         return this.userService.create(user);
     }
     async list() {
-        return { users: [] };
+        return this.userService.list();
     }
     async search(id) {
-        return { users: {}, id };
+        return this.userService.search(id);
     }
-    async update(user, id) {
-        return {
-            method: 'PUT',
-            user,
-            id,
-        };
+    async updateAll(user, id) {
+        return this.userService.updateAll(id, user);
     }
     async updatePartial(user, id) {
-        return {
-            method: 'PATCH',
-            user,
-            id,
-        };
+        return this.userService.updatePartial(id, user);
     }
     async delete(id) {
         return { id };
@@ -77,7 +69,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [update_put_user_dto_1.UpdatePutUserDTO, Number]),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "update", null);
+], UserController.prototype, "updateAll", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Body)()),
