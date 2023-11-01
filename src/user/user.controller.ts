@@ -1,15 +1,18 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Post, Body, Param, Get, Put, Patch, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get, Put, Patch, Delete, ParseIntPipe, UseInterceptors } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdatePutUserDTO } from './dto/update-put-user.dto';
 import { UpdatePatchUserDTO } from './dto/update-patch-user.dto';
 import { UserService } from './user.service';
+import { LogInterceptor } from 'src/interceptors/log.interceptor';
 
+@UseInterceptors(LogInterceptor)
 @Controller('users')
 export class UserController {
 
   constructor(private readonly userService: UserService) {}
 
+  //@UseInterceptors(LogInterceptor)
   @Post()
   async create(@Body() user: CreateUserDTO) {
     return this.userService.create(user);
@@ -96,10 +99,16 @@ async updatePartial(@Body() user: UpdatePatchUserDTO, @Param('id', ParseIntPipe)
   async delete(@Param() params) {
     return { params }
   }
+  
   Ou...
-  */
+  
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
     return { id }
+  }
+  */
+  @Delete(':id')
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.delete(id);
   }
 }

@@ -18,6 +18,7 @@ const create_user_dto_1 = require("./dto/create-user.dto");
 const update_put_user_dto_1 = require("./dto/update-put-user.dto");
 const update_patch_user_dto_1 = require("./dto/update-patch-user.dto");
 const user_service_1 = require("./user.service");
+const log_interceptor_1 = require("../interceptors/log.interceptor");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -38,7 +39,7 @@ let UserController = class UserController {
         return this.userService.updatePartial(id, user);
     }
     async delete(id) {
-        return { id };
+        return this.userService.delete(id);
     }
 };
 exports.UserController = UserController;
@@ -86,6 +87,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "delete", null);
 exports.UserController = UserController = __decorate([
+    (0, common_1.UseInterceptors)(log_interceptor_1.LogInterceptor),
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);

@@ -17,6 +17,9 @@ let UserService = class UserService {
         this.prisma = prisma;
     }
     async create(data) {
+        if (data.birthAt) {
+            data.birthAt = new Date(data.birthAt);
+        }
         return this.prisma.user.create({ data });
     }
     async list() {
@@ -29,20 +32,47 @@ let UserService = class UserService {
     }
     async updateAll(id, { name, email, password, birthAt }) {
         console.log({ name, email, password, birthAt });
-        if (!birthAt) {
-            birthAt = null;
-        }
+        await this.exists(id);
         return this.prisma.user.update({
-            data: { name, email, password, birthAt: birthAt ? new Date(birthAt) : null },
-            where: { id }
+            data: {
+                name,
+                email,
+                password,
+                birthAt: birthAt ? new Date(birthAt) : null,
+            },
+            where: { id },
         });
     }
-    async updatePartial(id, data) {
-        console.log(data);
+    async updatePartial(id, { name, email, password, birthAt }) {
+        await this.exists(id);
+        const data = {};
+        if (name) {
+            data.name = name;
+        }
+        if (email) {
+            data.email = email;
+        }
+        if (password) {
+            data.password = password;
+        }
+        if (birthAt) {
+            data.birthAt = new Date(birthAt);
+        }
         return this.prisma.user.update({
             data,
-            where: { id }
+            where: { id },
         });
+    }
+    async delete(id) {
+        await this.exists(id);
+        return this.prisma.user.delete({
+            where: { id },
+        });
+    }
+    async exists(id) {
+        if (!(await this.search(id))) {
+            throw new common_1.NotFoundException(`O usuário ${id} não existe.`);
+        }
     }
 };
 exports.UserService = UserService;

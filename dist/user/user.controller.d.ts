@@ -52,5 +52,11 @@ export declare class UserController {
     }>;
     delete(id: number): Promise<{
         id: number;
+        name: string;
+        email: string;
+        password: string;
+        birthAt: Date;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
 }

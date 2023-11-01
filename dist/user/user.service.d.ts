@@ -41,7 +41,7 @@ export declare class UserService {
         createdAt: Date;
         updatedAt: Date;
     }>;
-    updatePartial(id: number, data: UpdatePatchUserDTO): Promise<{
+    updatePartial(id: number, { name, email, password, birthAt }: UpdatePatchUserDTO): Promise<{
         id: number;
         name: string;
         email: string;
@@ -50,4 +50,14 @@ export declare class UserService {
         createdAt: Date;
         updatedAt: Date;
     }>;
+    delete(id: number): Promise<{
+        id: number;
+        name: string;
+        email: string;
+        password: string;
+        birthAt: Date;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    exists(id: number): Promise<void>;
 }
