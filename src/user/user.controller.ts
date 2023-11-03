@@ -5,6 +5,7 @@ import { UpdatePutUserDTO } from './dto/update-put-user.dto';
 import { UpdatePatchUserDTO } from './dto/update-patch-user.dto';
 import { UserService } from './user.service';
 import { LogInterceptor } from 'src/interceptors/log.interceptor';
+import { ParamId } from 'src/decorators/param-id.decorator';
 
 @UseInterceptors(LogInterceptor)
 @Controller('users')
@@ -33,15 +34,26 @@ export class UserController {
   async search(@Param() params) {
     return { users: {}, params };
   }
+
+  Ou...
   
   @Get(':id')
   async search(@Param('id', ParseIntPipe) id: number) {
     return { users: {}, id };
   }
-  */
+  
+  Ou...
 
   @Get(':id')
   async search(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.search(id);
+  }
+  */
+
+  //Usando o Param Decorator, ou seja, um decorator personalizado.
+  @Get(':id')
+  async search(@ParamId() id: number) {
+    console.log({id});
     return this.userService.search(id);
   }
 

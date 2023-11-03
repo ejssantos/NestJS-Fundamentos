@@ -19,6 +19,7 @@ const update_put_user_dto_1 = require("./dto/update-put-user.dto");
 const update_patch_user_dto_1 = require("./dto/update-patch-user.dto");
 const user_service_1 = require("./user.service");
 const log_interceptor_1 = require("../interceptors/log.interceptor");
+const param_id_decorator_1 = require("../decorators/param-id.decorator");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -30,6 +31,7 @@ let UserController = class UserController {
         return this.userService.list();
     }
     async search(id) {
+        console.log({ id });
         return this.userService.search(id);
     }
     async updateAll(user, id) {
@@ -58,7 +60,7 @@ __decorate([
 ], UserController.prototype, "list", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(0, (0, param_id_decorator_1.ParamId)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
