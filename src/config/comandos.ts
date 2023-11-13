@@ -9,7 +9,7 @@ Lembrete do uso de instruções mais usadas:
     npx @nestjs/cli generate module <nome do módulo>
 
   Criar Controller:
-    npx @nestjs/cli controller <nome do controller>
+    npx @nestjs/cli generate controller <nome do controller>
 
   Criar Serviço:
     npx @nestjs/cli generate service <nome do service>
@@ -74,4 +74,24 @@ ORM e NestJS
     A instrução abaixo atualiza o schema no banco de dados a partir do schema.prisma. (Bastante Útil)
 
       npx prisma migrate dev
+
+  JWT
+
+    Instalação
+
+      npm i @nestjs/jwt
+
+    Instalação a partir de uma versão específica
+
+      npm i @nestjs/jwt@9.0.0
+
+  Password Generator
+
+    Links para gerar senhas
+
+      https://passwords-generator.org/
+      https://www.lastpass.com/pt/features/password-generator
+      https://passwordsgenerator.net/
+
+
 */
