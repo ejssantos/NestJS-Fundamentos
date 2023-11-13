@@ -94,4 +94,8 @@ ORM e NestJS
       https://passwordsgenerator.net/
 
 
+Últimas instruções executadas:
+  
+  npx prisma migrate dev --name AddColumnRole
+  npx prisma generate                           //Atualiza o prisma client
 */

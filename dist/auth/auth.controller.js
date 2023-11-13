@@ -21,6 +21,7 @@ const user_service_1 = require("../user/user.service");
 const auth_service_1 = require("./auth.service");
 const auth_reset_dto_1 = require("./dto/auth-reset.dto");
 const auth_guard_1 = require("../guards/auth.guard");
+const user_decorator_1 = require("../decorators/user.decorator");
 let AuthController = class AuthController {
     constructor(userService, authService) {
         this.userService = userService;
@@ -38,8 +39,8 @@ let AuthController = class AuthController {
     async reset({ password, token }) {
         return await this.authService.reset(password, token);
     }
-    async check(req) {
-        return { check: 'Ok', data: req.tokenPayload };
+    async check(user) {
+        return { user };
     }
 };
 exports.AuthController = AuthController;
@@ -74,7 +75,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)('check'),
-    __param(0, (0, common_1.Req)()),
+    __param(0, (0, user_decorator_1.User)('email')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)

@@ -11,6 +11,7 @@ export declare class UserController {
         email: string;
         password: string;
         birthAt: Date;
+        role: number;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -20,6 +21,7 @@ export declare class UserController {
         email: string;
         password: string;
         birthAt: Date;
+        role: number;
         createdAt: Date;
         updatedAt: Date;
     }[]>;
@@ -29,6 +31,7 @@ export declare class UserController {
         email: string;
         password: string;
         birthAt: Date;
+        role: number;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -38,6 +41,7 @@ export declare class UserController {
         email: string;
         password: string;
         birthAt: Date;
+        role: number;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -47,6 +51,7 @@ export declare class UserController {
         email: string;
         password: string;
         birthAt: Date;
+        role: number;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -56,6 +61,7 @@ export declare class UserController {
         email: string;
         password: string;
         birthAt: Date;
+        role: number;
         createdAt: Date;
         updatedAt: Date;
     }>;

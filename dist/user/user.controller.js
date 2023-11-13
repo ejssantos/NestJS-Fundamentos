@@ -20,6 +20,8 @@ const update_patch_user_dto_1 = require("./dto/update-patch-user.dto");
 const user_service_1 = require("./user.service");
 const log_interceptor_1 = require("../interceptors/log.interceptor");
 const param_id_decorator_1 = require("../decorators/param-id.decorator");
+const role_enum_1 = require("../enums/role.enum");
+const role_decorator_1 = require("../decorators/role.decorator");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -46,6 +48,7 @@ let UserController = class UserController {
 };
 exports.UserController = UserController;
 __decorate([
+    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -53,12 +56,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "create", null);
 __decorate([
+    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "list", null);
 __decorate([
+    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
     (0, common_1.Get)(':id'),
     __param(0, (0, param_id_decorator_1.ParamId)()),
     __metadata("design:type", Function),
@@ -66,6 +71,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "search", null);
 __decorate([
+    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)('id', common_1.ParseIntPipe)),
@@ -74,6 +80,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "updateAll", null);
 __decorate([
+    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)('id', common_1.ParseIntPipe)),
@@ -82,6 +89,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "updatePartial", null);
 __decorate([
+    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),

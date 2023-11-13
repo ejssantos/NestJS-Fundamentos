@@ -18,8 +18,7 @@ export declare class AuthController {
     reset({ password, token }: AuthResetDTO): Promise<{
         accessToken: string;
     }>;
-    check(req: any): Promise<{
-        check: string;
-        data: any;
+    check(user: any): Promise<{
+        user: any;
     }>;
 }
