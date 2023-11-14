@@ -92,6 +92,7 @@ export class AuthService {
     return true;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async reset(password: string, token: string) {
     // TODO: validar o token...
 

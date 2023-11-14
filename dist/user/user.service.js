@@ -28,11 +28,11 @@ let UserService = class UserService {
     async search(id) {
         await this.exists(id);
         return this.prisma.user.findUnique({
-            where: { id }
+            where: { id },
         });
     }
-    async updateAll(id, { name, email, password, birthAt }) {
-        console.log({ name, email, password, birthAt });
+    async updateAll(id, { name, email, password, birthAt, role }) {
+        console.log({ name, email, password, birthAt, role });
         await this.exists(id);
         return this.prisma.user.update({
             data: {
@@ -44,7 +44,7 @@ let UserService = class UserService {
             where: { id },
         });
     }
-    async updatePartial(id, { name, email, password, birthAt }) {
+    async updatePartial(id, { name, email, password, birthAt, role }) {
         await this.exists(id);
         const data = {};
         if (name) {
@@ -58,6 +58,9 @@ let UserService = class UserService {
         }
         if (birthAt) {
             data.birthAt = new Date(birthAt);
+        }
+        if (role) {
+            data.role = role;
         }
         return this.prisma.user.update({
             data,

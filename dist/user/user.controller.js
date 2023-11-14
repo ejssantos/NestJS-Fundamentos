@@ -22,6 +22,7 @@ const log_interceptor_1 = require("../interceptors/log.interceptor");
 const param_id_decorator_1 = require("../decorators/param-id.decorator");
 const role_enum_1 = require("../enums/role.enum");
 const role_decorator_1 = require("../decorators/role.decorator");
+const role_guard_1 = require("../guards/role.guard");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -97,6 +98,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "delete", null);
 exports.UserController = UserController = __decorate([
+    (0, common_1.UseGuards)(role_guard_1.RoleGuard),
     (0, common_1.UseInterceptors)(log_interceptor_1.LogInterceptor),
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [user_service_1.UserService])

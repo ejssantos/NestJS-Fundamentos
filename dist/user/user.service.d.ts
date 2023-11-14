@@ -35,7 +35,7 @@ export declare class UserService {
         createdAt: Date;
         updatedAt: Date;
     }>;
-    updateAll(id: number, { name, email, password, birthAt }: UpdatePutUserDTO): Promise<{
+    updateAll(id: number, { name, email, password, birthAt, role }: UpdatePutUserDTO): Promise<{
         id: number;
         name: string;
         email: string;
@@ -45,7 +45,7 @@ export declare class UserService {
         createdAt: Date;
         updatedAt: Date;
     }>;
-    updatePartial(id: number, { name, email, password, birthAt }: UpdatePatchUserDTO): Promise<{
+    updatePartial(id: number, { name, email, password, birthAt, role }: UpdatePatchUserDTO): Promise<{
         id: number;
         name: string;
         email: string;

@@ -7,30 +7,29 @@ import { UpdatePatchUserDTO } from './dto/update-patch-user.dto';
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
-  
+
   //"email: email", essa anotação será aplicada caso eu declare uma variável com
   //nome diferente da do parâmetro. Por exemplo: senha: password.
-  
-  //async create({ name, email, password }: CreateUserDTO) {
-    //Toda vez que seu retorno (return) for uma promise, o uso do await será automático
-    //e portanto não precisa declará-lo.
-    //return await this.prisma.user.create({
 
-    // return this.prisma.user.create({
-    //   data: {
-    //     name,
-    //     email: email,
-    //     password,
-    //   },
-    //   select: {
-    //     id: true,
-    //     name: true,
-    //   }
-    // });
+  //async create({ name, email, password }: CreateUserDTO) {
+  //Toda vez que seu retorno (return) for uma promise, o uso do await será automático
+  //e portanto não precisa declará-lo.
+  //return await this.prisma.user.create({
+
+  // return this.prisma.user.create({
+  //   data: {
+  //     name,
+  //     email: email,
+  //     password,
+  //   },
+  //   select: {
+  //     id: true,
+  //     name: true,
+  //   }
+  // });
 
   //OU...
   async create(data: CreateUserDTO) {
-
     if (data.birthAt) {
       data.birthAt = new Date(data.birthAt);
     }
@@ -54,15 +53,15 @@ export class UserService {
     await this.exists(id);
 
     return this.prisma.user.findUnique({
-      where: { id }
+      where: { id },
     });
   }
 
   async updateAll(
     id: number,
-    { name, email, password, birthAt }: UpdatePutUserDTO,
+    { name, email, password, birthAt, role }: UpdatePutUserDTO,
   ) {
-    console.log({ name, email, password, birthAt });
+    console.log({ name, email, password, birthAt, role });
 
     await this.exists(id);
 
@@ -79,7 +78,7 @@ export class UserService {
 
   async updatePartial(
     id: number,
-    { name, email, password, birthAt }: UpdatePatchUserDTO,
+    { name, email, password, birthAt, role }: UpdatePatchUserDTO,
   ) {
     await this.exists(id);
 
@@ -99,6 +98,10 @@ export class UserService {
 
     if (birthAt) {
       data.birthAt = new Date(birthAt);
+    }
+
+    if (role) {
+      data.role = role;
     }
 
     return this.prisma.user.update({

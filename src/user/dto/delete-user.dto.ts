@@ -1,3 +1,1 @@
-export class DeleteUserDTO {
-  
-}
+export class DeleteUserDTO {}

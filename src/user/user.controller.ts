@@ -1,5 +1,16 @@
-/* eslint-disable prettier/prettier */
-import { Controller, Post, Body, Param, Get, Put, Patch, Delete, ParseIntPipe, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Get,
+  Put,
+  Patch,
+  Delete,
+  ParseIntPipe,
+  UseInterceptors,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdatePutUserDTO } from './dto/update-put-user.dto';
 import { UpdatePatchUserDTO } from './dto/update-patch-user.dto';
@@ -8,11 +19,13 @@ import { LogInterceptor } from 'src/interceptors/log.interceptor';
 import { ParamId } from 'src/decorators/param-id.decorator';
 import { Role } from 'src/enums/role.enum';
 import { Roles } from 'src/decorators/role.decorator';
+//import { AuthGuard } from 'src/guards/auth.guard';
+import { RoleGuard } from 'src/guards/role.guard';
 
+@UseGuards( /*AuthGuard,*/ RoleGuard)
 @UseInterceptors(LogInterceptor)
 @Controller('users')
 export class UserController {
-
   constructor(private readonly userService: UserService) {}
 
   @Roles(Role.Admin)
@@ -58,7 +71,7 @@ export class UserController {
   //Usando o Param Decorator, ou seja, um decorator personalizado.
   @Get(':id')
   async search(@ParamId() id: number) {
-    console.log({id});
+    console.log({ id });
     return this.userService.search(id);
   }
 
@@ -101,17 +114,23 @@ export class UserController {
   }
 */
 
-@Roles(Role.Admin)
-@Put(':id')
-async updateAll(@Body() user: UpdatePutUserDTO, @Param('id', ParseIntPipe) id: number) {
-  return this.userService.updateAll(id, user);
-}
+  @Roles(Role.Admin)
+  @Put(':id')
+  async updateAll(
+    @Body() user: UpdatePutUserDTO,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.userService.updateAll(id, user);
+  }
 
-@Roles(Role.Admin)
-@Patch(':id')
-async updatePartial(@Body() user: UpdatePatchUserDTO, @Param('id', ParseIntPipe) id: number) {
-  return this.userService.updatePartial(id, user);
-}
+  @Roles(Role.Admin)
+  @Patch(':id')
+  async updatePartial(
+    @Body() user: UpdatePatchUserDTO,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.userService.updatePartial(id, user);
+  }
 
   /*
   @Delete(':id')
