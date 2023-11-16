@@ -18,13 +18,18 @@ let RoleGuard = class RoleGuard {
         this.reflector = reflector;
     }
     async canActivate(context) {
-        const requiredRoles = this.reflector.getAllAndOverride(role_decorator_1.ROLES_KEY, [context.getHandler(), context.getClass()]);
+        const requiredRoles = this.reflector.getAllAndOverride(role_decorator_1.ROLES_KEY, [
+            context.getHandler(),
+            context.getClass(),
+        ]);
+        console.log({ requiredRoles });
         if (!requiredRoles) {
             return true;
         }
         const { user } = context.switchToHttp().getRequest();
+        const rolesFilted = requiredRoles.filter((role) => role === user.role);
         console.log({ requiredRoles, user });
-        return true;
+        return rolesFilted.length > 0;
     }
 };
 exports.RoleGuard = RoleGuard;

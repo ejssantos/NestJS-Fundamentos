@@ -43,11 +43,11 @@ export class AuthService {
           email: user.email,
         },
         {
-          expiresIn: '60 seconds', //'7 days',
+          expiresIn: '30 minutes', //'7 days', '60 seconds'
           subject: String(user.id),
           issuer: this.issuer, //emissor
           audience: this.audience, //quem tem acesso ao token
-          notBefore: '30 seconds',
+          //notBefore: '30 seconds',
         },
       ),
     };

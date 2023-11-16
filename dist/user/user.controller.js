@@ -22,6 +22,7 @@ const log_interceptor_1 = require("../interceptors/log.interceptor");
 const param_id_decorator_1 = require("../decorators/param-id.decorator");
 const role_enum_1 = require("../enums/role.enum");
 const role_decorator_1 = require("../decorators/role.decorator");
+const auth_guard_1 = require("../guards/auth.guard");
 const role_guard_1 = require("../guards/role.guard");
 let UserController = class UserController {
     constructor(userService) {
@@ -49,7 +50,6 @@ let UserController = class UserController {
 };
 exports.UserController = UserController;
 __decorate([
-    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -57,14 +57,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "create", null);
 __decorate([
-    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "list", null);
 __decorate([
-    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
+    (0, role_decorator_1.Roles)(role_enum_1.Role.User),
     (0, common_1.Get)(':id'),
     __param(0, (0, param_id_decorator_1.ParamId)()),
     __metadata("design:type", Function),
@@ -72,7 +71,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "search", null);
 __decorate([
-    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)('id', common_1.ParseIntPipe)),
@@ -81,7 +79,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "updateAll", null);
 __decorate([
-    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)('id', common_1.ParseIntPipe)),
@@ -90,7 +87,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "updatePartial", null);
 __decorate([
-    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
@@ -98,9 +94,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "delete", null);
 exports.UserController = UserController = __decorate([
-    (0, common_1.UseGuards)(role_guard_1.RoleGuard),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, role_guard_1.RoleGuard),
     (0, common_1.UseInterceptors)(log_interceptor_1.LogInterceptor),
     (0, common_1.Controller)('users'),
+    (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map

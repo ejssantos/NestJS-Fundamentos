@@ -17,10 +17,16 @@ let UserService = class UserService {
         this.prisma = prisma;
     }
     async create(data) {
-        if (data.birthAt) {
-            data.birthAt = new Date(data.birthAt);
+        try {
+            if (data.birthAt) {
+                data.birthAt = new Date(data.birthAt);
+            }
+            return this.prisma.user.create({ data });
         }
-        return this.prisma.user.create({ data });
+        catch (error) {
+            console.error(error);
+            throw new Error('Erro ao criar usuário');
+        }
     }
     async list() {
         return this.prisma.user.findMany();
@@ -40,6 +46,7 @@ let UserService = class UserService {
                 email,
                 password,
                 birthAt: birthAt ? new Date(birthAt) : null,
+                role,
             },
             where: { id },
         });

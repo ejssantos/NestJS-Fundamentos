@@ -29,11 +29,10 @@ let AuthService = class AuthService {
                 name: user.name,
                 email: user.email,
             }, {
-                expiresIn: '60 seconds',
+                expiresIn: '30 minutes',
                 subject: String(user.id),
                 issuer: this.issuer,
                 audience: this.audience,
-                notBefore: '30 seconds',
             }),
         };
     }

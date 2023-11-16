@@ -30,11 +30,15 @@ export class UserService {
 
   //OU...
   async create(data: CreateUserDTO) {
-    if (data.birthAt) {
-      data.birthAt = new Date(data.birthAt);
+    try {
+      if (data.birthAt) {
+        data.birthAt = new Date(data.birthAt);
+      }
+      return this.prisma.user.create({ data });
+    } catch (error) {
+      console.error(error);
+      throw new Error('Erro ao criar usuário');
     }
-
-    return this.prisma.user.create({ data });
   }
 
   async list() {
@@ -71,6 +75,7 @@ export class UserService {
         email,
         password,
         birthAt: birthAt ? new Date(birthAt) : null,
+        role,
       },
       where: { id },
     });

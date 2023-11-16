@@ -19,16 +19,17 @@ import { LogInterceptor } from 'src/interceptors/log.interceptor';
 import { ParamId } from 'src/decorators/param-id.decorator';
 import { Role } from 'src/enums/role.enum';
 import { Roles } from 'src/decorators/role.decorator';
-//import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from 'src/guards/auth.guard';
 import { RoleGuard } from 'src/guards/role.guard';
 
-@UseGuards( /*AuthGuard,*/ RoleGuard)
+@UseGuards(AuthGuard, RoleGuard)
 @UseInterceptors(LogInterceptor)
 @Controller('users')
+@Roles(Role.Admin)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Roles(Role.Admin)
+  //@Roles(Role.Admin)
   //@UseInterceptors(LogInterceptor)
   @Post()
   async create(@Body() user: CreateUserDTO) {
@@ -40,7 +41,7 @@ export class UserController {
   //   return { users: [] };
   // }
 
-  @Roles(Role.Admin)
+  //@Roles(Role.Admin, Role.User)
   @Get()
   async list() {
     return this.userService.list();
@@ -67,7 +68,7 @@ export class UserController {
   }
   */
 
-  @Roles(Role.Admin)
+  @Roles(Role.User)
   //Usando o Param Decorator, ou seja, um decorator personalizado.
   @Get(':id')
   async search(@ParamId() id: number) {
@@ -114,7 +115,6 @@ export class UserController {
   }
 */
 
-  @Roles(Role.Admin)
   @Put(':id')
   async updateAll(
     @Body() user: UpdatePutUserDTO,
@@ -123,7 +123,6 @@ export class UserController {
     return this.userService.updateAll(id, user);
   }
 
-  @Roles(Role.Admin)
   @Patch(':id')
   async updatePartial(
     @Body() user: UpdatePatchUserDTO,
@@ -146,7 +145,6 @@ export class UserController {
   }
   */
 
-  @Roles(Role.Admin)
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
     return this.userService.delete(id);
