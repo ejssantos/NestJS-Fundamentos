@@ -7,6 +7,16 @@ import { env } from 'process';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  //Habilitando o CORS...
+  //origin: '*' aceita qualquer domínio.
+  app.enableCors({
+    origin: [
+      'https://www.santacasademaceio.com.br',
+      'http://meudominio.com',
+      //'*',
+    ],
+    methods: ['GET', 'HEAD', 'OPTIONS'],
+  });
   app.useGlobalPipes(new ValidationPipe());
 
   //A instrução abaixo permite interceptar todos os meus controllers.

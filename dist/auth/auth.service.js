@@ -14,6 +14,7 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const prisma_service_1 = require("../prisma/prisma.service");
 const user_service_1 = require("../user/user.service");
+const bcrypt = require("bcrypt");
 let AuthService = class AuthService {
     constructor(jwtService, prismaService, userService) {
         this.jwtService = jwtService;
@@ -50,10 +51,14 @@ let AuthService = class AuthService {
     }
     async login(email, password) {
         const user = await this.prismaService.user.findFirst({
-            where: { email, password },
+            where: { email },
         });
         if (!user) {
             throw new common_1.UnauthorizedException(`Usuário ${email} não autorizado.`);
+        }
+        const result = await bcrypt.compare(password, user.password);
+        if (!result) {
+            throw new common_1.UnauthorizedException('Senha inválida!');
         }
         return this.createToken(user);
     }

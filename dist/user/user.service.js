@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
+const bcrypt = require("bcrypt");
 let UserService = class UserService {
     constructor(prisma) {
         this.prisma = prisma;
@@ -21,6 +22,9 @@ let UserService = class UserService {
             if (data.birthAt) {
                 data.birthAt = new Date(data.birthAt);
             }
+            const salt = await bcrypt.genSalt();
+            console.log(salt);
+            data.password = await bcrypt.hash(data.password, salt);
             return this.prisma.user.create({ data });
         }
         catch (error) {
@@ -40,6 +44,8 @@ let UserService = class UserService {
     async updateAll(id, { name, email, password, birthAt, role }) {
         console.log({ name, email, password, birthAt, role });
         await this.exists(id);
+        const salt = await bcrypt.genSalt();
+        password = await bcrypt.hash(password, salt);
         return this.prisma.user.update({
             data: {
                 name,
@@ -61,7 +67,8 @@ let UserService = class UserService {
             data.email = email;
         }
         if (password) {
-            data.password = password;
+            const salt = await bcrypt.genSalt();
+            data.password = await bcrypt.hash(password, salt);
         }
         if (birthAt) {
             data.birthAt = new Date(birthAt);

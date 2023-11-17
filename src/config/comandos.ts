@@ -98,4 +98,20 @@ ORM e NestJS
   
   npx prisma migrate dev --name AddColumnRole
   npx prisma generate                           //Atualiza o prisma client
+
+  Armazenamento de senha de forma segura - Hash
+
+    npm i bcrypt
+
+    ou
+    
+    npm i bcrypt@5.1.1
+
+    @types/bcrypt
+
+    Instalando os tipos da biblioteca bcrypt, uma vez que a mesma não é escrita em type script.
+    Entretanto, a comunidade já disponibilizou os tipos em type script. Para isso, basta
+    instalar o pacote abaixo:
+
+      npm i -D @types/bcrypt
 */

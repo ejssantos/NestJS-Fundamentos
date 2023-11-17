@@ -32,6 +32,14 @@ export class UserController {
   //@Roles(Role.Admin)
   //@UseInterceptors(LogInterceptor)
   @Post()
+  /*
+  //Exemplo de uso de ParseIntPipe no decorator @Body()
+  async create(
+    @Body(new ParseIntPipe({ errorHttpStatusCode: 422 })) user: CreateUserDTO,
+  ) {
+    return this.userService.create(user);
+  }
+  */
   async create(@Body() user: CreateUserDTO) {
     return this.userService.create(user);
   }
