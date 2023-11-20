@@ -24,6 +24,7 @@ const role_enum_1 = require("../enums/role.enum");
 const role_decorator_1 = require("../decorators/role.decorator");
 const auth_guard_1 = require("../guards/auth.guard");
 const role_guard_1 = require("../guards/role.guard");
+const throttler_1 = require("@nestjs/throttler");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -63,7 +64,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "list", null);
 __decorate([
-    (0, role_decorator_1.Roles)(role_enum_1.Role.User),
+    (0, throttler_1.SkipThrottle)(),
+    (0, role_decorator_1.Roles)(role_enum_1.Role.User, role_enum_1.Role.Admin),
     (0, common_1.Get)(':id'),
     __param(0, (0, param_id_decorator_1.ParamId)()),
     __metadata("design:type", Function),
@@ -94,7 +96,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "delete", null);
 exports.UserController = UserController = __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, role_guard_1.RoleGuard),
+    (0, common_1.UseGuards)(throttler_1.ThrottlerGuard, auth_guard_1.AuthGuard, role_guard_1.RoleGuard),
     (0, common_1.UseInterceptors)(log_interceptor_1.LogInterceptor),
     (0, common_1.Controller)('users'),
     (0, role_decorator_1.Roles)(role_enum_1.Role.Admin),

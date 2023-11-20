@@ -114,4 +114,23 @@ ORM e NestJS
     instalar o pacote abaixo:
 
       npm i -D @types/bcrypt
+
+    Controlador de quantidade de acessos ao app
+    (Não vem com NestJS, mas é reconhecido oficialmente pelo NestJS).
+
+      Instalação
+
+        npm i @nestjs/throttler
+
+    Biblioteca oficial do NestJS para acessar as variáveis de ambiente (env)
+
+      Instalação
+
+        npm i @nestjs/config
+
+    Upload de arquivos
+
+      Instalação
+
+        npm i -D @types/multer
 */

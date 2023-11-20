@@ -21,14 +21,19 @@ import { Role } from 'src/enums/role.enum';
 import { Roles } from 'src/decorators/role.decorator';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { RoleGuard } from 'src/guards/role.guard';
+import { SkipThrottle, Throttle, ThrottlerGuard } from '@nestjs/throttler';
 
-@UseGuards(AuthGuard, RoleGuard)
+//Em nível de classe
+@UseGuards(ThrottlerGuard, AuthGuard, RoleGuard)
+//@UseGuards(AuthGuard, RoleGuard)
 @UseInterceptors(LogInterceptor)
 @Controller('users')
 @Roles(Role.Admin)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  //Em nível de rota
+  //@UseGuards(ThrottlerGuard)
   //@Roles(Role.Admin)
   //@UseInterceptors(LogInterceptor)
   @Post()
@@ -49,6 +54,9 @@ export class UserController {
   //   return { users: [] };
   // }
 
+  //@UseGuards(ThrottlerGuard)
+  //Definindo um limite de acesso em nível de rota. ttl em milisegundos.
+  //@Throttle({ default: { limit: 5, ttl: 60000 } })
   //@Roles(Role.Admin, Role.User)
   @Get()
   async list() {
@@ -76,7 +84,9 @@ export class UserController {
   }
   */
 
-  @Roles(Role.User)
+  //Caso deseje ignorar o Throttle
+  @SkipThrottle()
+  @Roles(Role.User, Role.Admin)
   //Usando o Param Decorator, ou seja, um decorator personalizado.
   @Get(':id')
   async search(@ParamId() id: number) {

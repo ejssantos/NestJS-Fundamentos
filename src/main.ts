@@ -8,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   //Habilitando o CORS...
-  //origin: '*' aceita qualquer domínio.
+  //origin: '*' aceita qunpm run startalquer domínio.
   app.enableCors({
     origin: [
       'https://www.santacasademaceio.com.br',

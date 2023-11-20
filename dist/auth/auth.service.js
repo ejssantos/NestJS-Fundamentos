@@ -50,6 +50,7 @@ let AuthService = class AuthService {
         }
     }
     async login(email, password) {
+        console.log(process.env);
         const user = await this.prismaService.user.findFirst({
             where: { email },
         });

@@ -68,6 +68,7 @@ export class AuthService {
   }
 
   async login(email: string, password: string) {
+    console.log(process.env);
     //Busca se há email cadastrado
     const user = await this.prismaService.user.findFirst({
       where: { email },
@@ -76,7 +77,7 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException(`Usuário ${email} não autorizado.`);
     }
-    
+
     const result = await bcrypt.compare(password, user.password);
     if (!result) {
       throw new UnauthorizedException('Senha inválida!');

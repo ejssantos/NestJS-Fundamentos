@@ -13,18 +13,35 @@ const app_service_1 = require("./app.service");
 const user_module_1 = require("./user/user.module");
 const prisma_module_1 = require("./prisma/prisma.module");
 const auth_module_1 = require("./auth/auth.module");
+const throttler_1 = require("@nestjs/throttler");
+const core_1 = require("@nestjs/core");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            config_1.ConfigModule.forRoot(),
+            throttler_1.ThrottlerModule.forRoot([
+                {
+                    ttl: 60000,
+                    limit: 10,
+                    ignoreUserAgents: [/googlebot/gi],
+                },
+            ]),
             (0, common_1.forwardRef)(() => user_module_1.UserModule),
             prisma_module_1.PrismaModule,
             (0, common_1.forwardRef)(() => auth_module_1.AuthModule),
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [
+            app_service_1.AppService,
+            {
+                provide: core_1.APP_GUARD,
+                useClass: throttler_1.ThrottlerGuard,
+            },
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
