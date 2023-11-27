@@ -130,6 +130,13 @@ ORM e NestJS
 
     Upload de arquivos
 
+      Multer
+
+        É um middleware do NodeJS. Não é necessário instalar o Multer, porque ela já vem
+        com ExpressJS, que por sua vez já vem com NodeJS / NestJS.
+        Para utilizar esse middleware com TypeScript, é necessário instalar o types de
+        multer, conforme segue instrução abaixo:
+
       Instalação
 
         npm i -D @types/multer
