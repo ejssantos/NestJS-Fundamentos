@@ -22,10 +22,14 @@ const auth_service_1 = require("./auth.service");
 const auth_reset_dto_1 = require("./dto/auth-reset.dto");
 const auth_guard_1 = require("../guards/auth.guard");
 const user_decorator_1 = require("../decorators/user.decorator");
+const platform_express_1 = require("@nestjs/platform-express");
+const path_1 = require("path");
+const file_service_1 = require("../file/file.service");
 let AuthController = class AuthController {
-    constructor(userService, authService) {
+    constructor(userService, authService, fileService) {
         this.userService = userService;
         this.authService = authService;
+        this.fileService = fileService;
     }
     async login({ email, password }) {
         return await this.authService.login(email, password);
@@ -41,6 +45,16 @@ let AuthController = class AuthController {
     }
     async check(user) {
         return { user };
+    }
+    async uploadPhoto(user, photo) {
+        const path = (0, path_1.join)(__dirname, '..', '..', 'storage', 'photos', `photo-${Math.random()}.png`);
+        try {
+            this.fileService.upload(photo, path);
+        }
+        catch (error) {
+            throw new common_1.BadRequestException(error);
+        }
+        return { success: true };
     }
 };
 exports.AuthController = AuthController;
@@ -80,9 +94,20 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "check", null);
+__decorate([
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Post)('photo'),
+    __param(0, (0, user_decorator_1.User)()),
+    __param(1, (0, common_1.UploadedFile)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "uploadPhoto", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [user_service_1.UserService,
-        auth_service_1.AuthService])
+        auth_service_1.AuthService,
+        file_service_1.FileService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

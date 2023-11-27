@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UserModule } from 'src/user/user.module';
 import { PrismaModule } from 'src/prisma/prisma.module';
+import { FileModule } from 'src/file/file.module';
 
 //  Para resolver circular dependency: forwardRef
 //    exports: [AuthService],
@@ -15,6 +16,7 @@ import { PrismaModule } from 'src/prisma/prisma.module';
     }),
     forwardRef(() => UserModule),
     PrismaModule,
+    FileModule,
   ],
   providers: [AuthService],
   controllers: [AuthController],

@@ -13,6 +13,7 @@ const auth_service_1 = require("./auth.service");
 const auth_controller_1 = require("./auth.controller");
 const user_module_1 = require("../user/user.module");
 const prisma_module_1 = require("../prisma/prisma.module");
+const file_module_1 = require("../file/file.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -24,6 +25,7 @@ exports.AuthModule = AuthModule = __decorate([
             }),
             (0, common_1.forwardRef)(() => user_module_1.UserModule),
             prisma_module_1.PrismaModule,
+            file_module_1.FileModule,
         ],
         providers: [auth_service_1.AuthService],
         controllers: [auth_controller_1.AuthController],
