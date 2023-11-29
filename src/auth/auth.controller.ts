@@ -4,25 +4,33 @@ import {
   Body,
   UseGuards,
   UseInterceptors,
-  UploadedFile,
   BadRequestException,
+  UploadedFile,
+  UploadedFiles,
+  ParseFilePipe,
+  FileTypeValidator,
+  MaxFileSizeValidator,
 } from '@nestjs/common';
 import { AuthForgetDTO } from './dto/auth-forget.dto';
 import { AuthRegisterDTO } from './dto/auth-register.dto';
 import { AuthLoginDTO } from './dto/auth-login.dto';
-import { UserService } from 'src/user/user.service';
+//import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
 import { AuthResetDTO } from './dto/auth-reset.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { User } from 'src/decorators/user.decorator';
-import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+  FilesInterceptor,
+} from '@nestjs/platform-express';
 import { join } from 'path';
 import { FileService } from 'src/file/file.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly userService: UserService,
+    //private readonly userService: UserService,
     private readonly authService: AuthService,
     private readonly fileService: FileService,
   ) {}
@@ -85,14 +93,34 @@ export class AuthController {
     return { user };
   }
 
+  //Upload de apenas 1 arquivo por vez
   @UseInterceptors(FileInterceptor('file'))
   @UseGuards(AuthGuard)
   @Post('photo')
-  async uploadPhoto(@User() user, @UploadedFile() photo: Express.Multer.File) {
-    const path = join(__dirname, '..', '..', 'storage', 'photos', `photo-${Math.random()}.png`);
+  //async uploadPhoto(@User() user, @UploadedFile() photo: Express.Multer.File) {
+  async uploadPhoto(
+    @User() user,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new FileTypeValidator({ fileType: 'image/jpeg' }),
+          new MaxFileSizeValidator({ maxSize: 1024 * 293 }), //convertendo para bytes
+        ],
+      }),
+    )
+    photo: Express.Multer.File,
+  ) {
+    const path = join(
+      __dirname,
+      '..',
+      '..',
+      'storage',
+      'photos',
+      `photo-${Math.random()}.png`,
+    );
 
     try {
-      this.fileService.upload(photo, path);  
+      this.fileService.upload(photo, path);
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -100,4 +128,36 @@ export class AuthController {
     return { success: true };
   }
 
+  //Upload de vários arquivos
+  @UseInterceptors(FilesInterceptor('files'))
+  @UseGuards(AuthGuard)
+  @Post('files')
+  async uploadFiles(@UploadedFiles() files: Express.Multer.File[]) {
+    return files;
+  }
+
+  //Upload de vários arquivos, mas cada arquivo separado por field
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      {
+        name: 'photo',
+        maxCount: 1,
+      },
+      {
+        name: 'documents',
+        maxCount: 10,
+      },
+    ]),
+  )
+  @UseGuards(AuthGuard)
+  @Post('files-fields')
+  async uploadFilesFields(
+    @UploadedFiles()
+    files: {
+      photo: Express.Multer.File;
+      documents: Express.Multer.File[];
+    },
+  ) {
+    return files;
+  }
 }

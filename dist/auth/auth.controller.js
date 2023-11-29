@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const auth_forget_dto_1 = require("./dto/auth-forget.dto");
 const auth_register_dto_1 = require("./dto/auth-register.dto");
 const auth_login_dto_1 = require("./dto/auth-login.dto");
-const user_service_1 = require("../user/user.service");
 const auth_service_1 = require("./auth.service");
 const auth_reset_dto_1 = require("./dto/auth-reset.dto");
 const auth_guard_1 = require("../guards/auth.guard");
@@ -26,8 +25,7 @@ const platform_express_1 = require("@nestjs/platform-express");
 const path_1 = require("path");
 const file_service_1 = require("../file/file.service");
 let AuthController = class AuthController {
-    constructor(userService, authService, fileService) {
-        this.userService = userService;
+    constructor(authService, fileService) {
         this.authService = authService;
         this.fileService = fileService;
     }
@@ -55,6 +53,12 @@ let AuthController = class AuthController {
             throw new common_1.BadRequestException(error);
         }
         return { success: true };
+    }
+    async uploadFiles(files) {
+        return files;
+    }
+    async uploadFilesFields(files) {
+        return files;
     }
 };
 exports.AuthController = AuthController;
@@ -99,15 +103,46 @@ __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)('photo'),
     __param(0, (0, user_decorator_1.User)()),
-    __param(1, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({
+        validators: [
+            new common_1.FileTypeValidator({ fileType: 'image/jpeg' }),
+            new common_1.MaxFileSizeValidator({ maxSize: 1024 * 293 }),
+        ],
+    }))),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "uploadPhoto", null);
+__decorate([
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files')),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Post)('files'),
+    __param(0, (0, common_1.UploadedFiles)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "uploadFiles", null);
+__decorate([
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([
+        {
+            name: 'photo',
+            maxCount: 1,
+        },
+        {
+            name: 'documents',
+            maxCount: 10,
+        },
+    ])),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Post)('files-fields'),
+    __param(0, (0, common_1.UploadedFiles)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "uploadFilesFields", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
-    __metadata("design:paramtypes", [user_service_1.UserService,
-        auth_service_1.AuthService,
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
         file_service_1.FileService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map
