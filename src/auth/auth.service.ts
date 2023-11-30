@@ -9,6 +9,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthRegisterDTO } from './dto/auth-register.dto';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
+import { MailerService } from '@nestjs-modules/mailer/dist';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +17,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly prismaService: PrismaService,
     private readonly userService: UserService,
+    private readonly mailer: MailerService,
   ) {}
 
   private audience: string = 'users';
@@ -96,6 +98,28 @@ export class AuthService {
     }
 
     // TODO: enviar um e-mail...
+    const token = this.jwtService.sign(
+      {
+        id: user.id,
+      },
+      {
+        expiresIn: '30 minutes',
+        subject: String(user.id),
+        issuer: 'forget', //emissor
+        audience: 'users', //quem tem acesso ao token
+      },
+    );
+
+    await this.mailer.sendMail({
+      subject: 'Recuperação de Senha',
+      to: 'ejssantos@hotmail.com',
+      //html: '', //Conteúdo em HTML,
+      template: 'forget', //Conteúdo em Template
+      context: {
+        name: user.name,
+        token: token,
+      },
+    });
 
     return true;
   }

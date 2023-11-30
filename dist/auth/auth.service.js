@@ -15,11 +15,13 @@ const jwt_1 = require("@nestjs/jwt");
 const prisma_service_1 = require("../prisma/prisma.service");
 const user_service_1 = require("../user/user.service");
 const bcrypt = require("bcrypt");
+const dist_1 = require("@nestjs-modules/mailer/dist");
 let AuthService = class AuthService {
-    constructor(jwtService, prismaService, userService) {
+    constructor(jwtService, prismaService, userService, mailer) {
         this.jwtService = jwtService;
         this.prismaService = prismaService;
         this.userService = userService;
+        this.mailer = mailer;
         this.audience = 'users';
         this.issuer = 'login';
     }
@@ -70,6 +72,23 @@ let AuthService = class AuthService {
         if (!user) {
             throw new common_1.UnauthorizedException(`E-mail ${email} não autorizado.`);
         }
+        const token = this.jwtService.sign({
+            id: user.id,
+        }, {
+            expiresIn: '30 minutes',
+            subject: String(user.id),
+            issuer: 'forget',
+            audience: 'users',
+        });
+        await this.mailer.sendMail({
+            subject: 'Recuperação de Senha',
+            to: 'ejssantos@hotmail.com',
+            template: 'forget',
+            context: {
+                name: user.name,
+                token: token,
+            },
+        });
         return true;
     }
     async reset(password, token) {
@@ -103,6 +122,7 @@ exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [jwt_1.JwtService,
         prisma_service_1.PrismaService,
-        user_service_1.UserService])
+        user_service_1.UserService,
+        dist_1.MailerService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

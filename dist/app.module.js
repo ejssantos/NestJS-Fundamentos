@@ -16,6 +16,8 @@ const auth_module_1 = require("./auth/auth.module");
 const throttler_1 = require("@nestjs/throttler");
 const core_1 = require("@nestjs/core");
 const config_1 = require("@nestjs/config");
+const mailer_1 = require("@nestjs-modules/mailer");
+const pug_adapter_1 = require("@nestjs-modules/mailer/dist/adapters/pug.adapter");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -33,6 +35,26 @@ exports.AppModule = AppModule = __decorate([
             (0, common_1.forwardRef)(() => user_module_1.UserModule),
             prisma_module_1.PrismaModule,
             (0, common_1.forwardRef)(() => auth_module_1.AuthModule),
+            mailer_1.MailerModule.forRoot({
+                transport: {
+                    host: 'smtp.ethereal.email',
+                    port: 587,
+                    auth: {
+                        user: 'wilfrid.schiller@ethereal.email',
+                        pass: 'W5KcxtpJ4DWPwDx7yy',
+                    },
+                },
+                defaults: {
+                    from: '"NestJS - Mailer" <wilfrid.schiller@ethereal.email>',
+                },
+                template: {
+                    dir: __dirname + '/templates',
+                    adapter: new pug_adapter_1.PugAdapter(),
+                    options: {
+                        strict: true,
+                    },
+                },
+            }),
         ],
         controllers: [app_controller_1.AppController],
         providers: [

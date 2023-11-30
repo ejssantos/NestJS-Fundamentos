@@ -3,11 +3,13 @@ import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthRegisterDTO } from './dto/auth-register.dto';
 import { UserService } from 'src/user/user.service';
+import { MailerService } from '@nestjs-modules/mailer/dist';
 export declare class AuthService {
     private readonly jwtService;
     private readonly prismaService;
     private readonly userService;
-    constructor(jwtService: JwtService, prismaService: PrismaService, userService: UserService);
+    private readonly mailer;
+    constructor(jwtService: JwtService, prismaService: PrismaService, userService: UserService, mailer: MailerService);
     private audience;
     private issuer;
     createToken(user: User): {

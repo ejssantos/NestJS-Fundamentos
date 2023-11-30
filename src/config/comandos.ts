@@ -141,15 +141,24 @@ ORM e NestJS
 
         npm i -D @types/multer
 
+
     Envio de E-mails
 
       Nestjs Mailer
-      Instalação
 
-        npm install --save @nestjs-modules/mailer nodemailer
-        npm install --save-dev @types/nodemailer
+        Referência:
 
-      Instalação de template
+          https://nest-modules.github.io/mailer/docs/mailer.html
 
-        npm install --save pug
+          Simulador de e-mails:
+          https://ethereal.email/
+
+        Instalação
+
+          npm install --save @nestjs-modules/mailer nodemailer
+          npm install --save-dev @types/nodemailer
+
+        Instalação de template
+
+          npm install --save pug
 */
