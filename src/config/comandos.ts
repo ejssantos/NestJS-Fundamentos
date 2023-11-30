@@ -140,4 +140,16 @@ ORM e NestJS
       Instalação
 
         npm i -D @types/multer
+
+    Envio de E-mails
+
+      Nestjs Mailer
+      Instalação
+
+        npm install --save @nestjs-modules/mailer nodemailer
+        npm install --save-dev @types/nodemailer
+
+      Instalação de template
+
+        npm install --save pug
 */
