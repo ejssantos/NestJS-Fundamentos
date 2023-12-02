@@ -92,16 +92,29 @@ let AuthService = class AuthService {
         return true;
     }
     async reset(password, token) {
-        const id = 0;
-        const user = await this.prismaService.user.update({
-            where: {
-                id,
-            },
-            data: {
-                password,
-            },
-        });
-        return this.createToken(user);
+        try {
+            const data = this.jwtService.verify(token, {
+                audience: 'users',
+                issuer: 'forget',
+            });
+            if (isNaN(Number(data.id))) {
+                throw new common_1.BadRequestException('Token inválido.');
+            }
+            const salt = await bcrypt.genSalt();
+            password = await bcrypt.hash(password, salt);
+            const user = await this.prismaService.user.update({
+                where: {
+                    id: Number(data.id),
+                },
+                data: {
+                    password,
+                },
+            });
+            return this.createToken(user);
+        }
+        catch (e) {
+            throw new common_1.BadRequestException(e);
+        }
     }
     async register(data) {
         const user = await this.userService.create(data);

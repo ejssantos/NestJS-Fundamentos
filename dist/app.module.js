@@ -37,15 +37,18 @@ exports.AppModule = AppModule = __decorate([
             (0, common_1.forwardRef)(() => auth_module_1.AuthModule),
             mailer_1.MailerModule.forRoot({
                 transport: {
-                    host: 'smtp.ethereal.email',
-                    port: 587,
+                    host: process.env.MAIL_HOST,
+                    port: Number(process.env.MAIL_PORT),
                     auth: {
-                        user: 'wilfrid.schiller@ethereal.email',
-                        pass: 'W5KcxtpJ4DWPwDx7yy',
+                        user: process.env.MAIL_USER,
+                        pass: process.env.MAIL_PASSWORD,
+                    },
+                    tls: {
+                        rejectUnauthorized: false,
                     },
                 },
                 defaults: {
-                    from: '"NestJS - Mailer" <wilfrid.schiller@ethereal.email>',
+                    from: '"NestJS - Mailer" <herbert.lemke15@ethereal.email>',
                 },
                 template: {
                     dir: __dirname + '/templates',

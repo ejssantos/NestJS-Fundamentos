@@ -97,7 +97,7 @@ export class AuthService {
       throw new UnauthorizedException(`E-mail ${email} não autorizado.`);
     }
 
-    // TODO: enviar um e-mail...
+    // Enviar um e-mail...
     const token = this.jwtService.sign(
       {
         id: user.id,
@@ -127,19 +127,33 @@ export class AuthService {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async reset(password: string, token: string) {
     // TODO: validar o token...
+    try {
+      const data:any = this.jwtService.verify(token, {
+        audience: 'users',
+        issuer: 'forget',
+      });
 
-    const id = 0;
+      if (isNaN(Number(data.id))) {
+        throw new BadRequestException('Token inválido.');
+      }
 
-    const user = await this.prismaService.user.update({
-      where: {
-        id,
-      },
-      data: {
-        password,
-      },
-    });
+      const salt = await bcrypt.genSalt();
+      password = await bcrypt.hash(password, salt);
 
-    return this.createToken(user);
+      const user = await this.prismaService.user.update({
+        where: {
+          id: Number(data.id),
+        },
+        data: {
+          password,
+        },
+      });
+
+      return this.createToken(user);
+
+    } catch (e) {
+      throw new BadRequestException(e);
+    }
   }
 
   async register(data: AuthRegisterDTO) {
