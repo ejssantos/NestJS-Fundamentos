@@ -161,4 +161,43 @@ ORM e NestJS
         Instalação de template
 
           npm install --save pug
+
+  Git
+  
+    Cenário: Criou um projeto em máquina local, e somente depois resolveu criar um repositório no GitHub.
+    Passos:
+
+      1.  Criar repositório no GitHub
+      2.  Na pasta do projeto, adicionar todos os arquivos:
+
+        git add --all
+
+      3.  Realizar o commit e inicializar o git:
+
+        git commit -m init
+
+      4. Subir os arquivosm para área de transferência do git:
+      
+        git remote add origin git@github.com:ejssantos/nestjs-prisma-mysql.git
+
+        Onde:
+          ejssantos corresponde ao proprietário do repositório;
+          nestjs-prisma-mysql corresponde ao nome do repositório.
+
+      5.  Subir os arquivos para o repositório Git:
+
+        git push origin master
+    
+    Referências do projeto HCode:
+
+      https://github.com/hcodebr/nestjs-prisma-mysql
+
+      https://github.com/hcodebr/nestjs-prisma-mysql.git
+
+
+  TypeORM
+
+    Referências:
+
+      https://typeorm.io/
 */
